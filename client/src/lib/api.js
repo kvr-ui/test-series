@@ -30,3 +30,17 @@ export const verifyOrder = (orderNumber, payment) =>
 
 export const getOrder = (orderNumber, { signal } = {}) =>
   request(`/api/checkout/orders/${encodeURIComponent(orderNumber)}`, { signal });
+
+// Admin dashboard: the session lives in an HttpOnly cookie the server sets on login
+export const adminLogin = ({ email, password }) =>
+  request('/api/admin/login', { method: 'POST', body: JSON.stringify({ email, password }) });
+
+export const adminLogout = () => request('/api/admin/logout', { method: 'POST' });
+
+export const getAdminSession = () => request('/api/admin/me');
+
+export const getAdminOrders = ({ status, q, page }, { signal } = {}) =>
+  request(`/api/admin/orders?${new URLSearchParams({ status, q, page })}`, { signal });
+
+export const resendConfirmation = (orderNumber) =>
+  request(`/api/admin/orders/${encodeURIComponent(orderNumber)}/resend-confirmation`, { method: 'POST' });

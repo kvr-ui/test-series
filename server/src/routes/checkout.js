@@ -4,6 +4,8 @@ import { env } from '../config/env.js';
 import { Order } from '../models/Order.js';
 import { quoteSelection } from '../data/plans.js';
 import { requireAdmin } from '../middleware/requireAdmin.js';
+import { deliverOrderConfirmation } from '../lib/orderConfirmation.js';
+import { mailEnabled } from '../lib/mailer.js';
 import {
   createRazorpayOrder,
   paymentsEnabled,
@@ -41,13 +43,32 @@ function readCustomer(body) {
   return { customer: { name, email, phone } };
 }
 
+/*
+ * The browser verify call and the webhook usually race each other here. The conditional update
+ * lets exactly one of them flip the order to `paid`, and only that one sends the confirmation email.
+ */
 async function markPaid(order, { paymentId, signature }) {
   if (order.status === 'paid') return order;
-  order.status = 'paid';
-  order.paidAt = new Date();
-  order.razorpay.paymentId = paymentId;
-  if (signature) order.razorpay.signature = signature;
-  return order.save();
+  const paid = await Order.findOneAndUpdate(
+    { _id: order._id, status: { $ne: 'paid' } },
+    {
+      $set: {
+        status: 'paid',
+        paidAt: new Date(),
+        ...(paymentId && { 'razorpay.paymentId': paymentId }),
+        ...(signature && { 'razorpay.signature': signature }),
+      },
+    },
+    { new: true },
+  );
+  if (!paid) return Order.findById(order._id);
+
+  if (mailEnabled()) {
+    deliverOrderConfirmation(paid); // records its own outcome; must not hold up the payment response
+  } else {
+    console.warn(`Order ${paid.orderNumber} paid, but no confirmation email was sent: SMTP is not configured`);
+  }
+  return paid;
 }
 
 // Validates a selection and returns its server-side price for the checkout summary

@@ -29,6 +29,11 @@ const orderSchema = new mongoose.Schema(
       signature: String,
     },
     paidAt: Date,
+    // Order confirmation email: set once it goes out, or the last SMTP error if it did not
+    confirmationEmail: {
+      sentAt: Date,
+      error: String,
+    },
   },
   { timestamps: true },
 );

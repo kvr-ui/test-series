@@ -16,5 +16,21 @@ export const env = {
     .map((origin) => origin.trim())
     .filter(Boolean),
   adminToken: process.env.ADMIN_TOKEN || '',
+  // Login for the /dashboard order view. Login is disabled until ADMIN_PASSWORD is set.
+  admin: {
+    email: (process.env.ADMIN_EMAIL || 'kvr@focasedu.com').trim().toLowerCase(),
+    password: process.env.ADMIN_PASSWORD || '',
+    sessionSecret: process.env.ADMIN_SESSION_SECRET || '',
+  },
+  // SMTP account the order confirmation emails are sent from. Emails are skipped until host and from are set.
+  mail: {
+    host: process.env.SMTP_HOST || '',
+    port: Number(process.env.SMTP_PORT) || 587,
+    secure: process.env.SMTP_SECURE ? process.env.SMTP_SECURE === 'true' : Number(process.env.SMTP_PORT) === 465,
+    user: process.env.SMTP_USER || '',
+    pass: process.env.SMTP_PASS || '',
+    from: process.env.MAIL_FROM || '',
+    notifyTo: process.env.ORDER_NOTIFY_EMAIL || '',
+  },
   isProduction: process.env.NODE_ENV === 'production',
 };

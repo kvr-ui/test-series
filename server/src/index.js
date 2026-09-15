@@ -9,8 +9,11 @@ import { Page } from './models/Page.js';
 import { videoInsightsPage } from './data/videoInsightsPage.js';
 import pageRoutes from './routes/pages.js';
 import checkoutRoutes, { handleRazorpayWebhook } from './routes/checkout.js';
+import adminRoutes from './routes/admin.js';
 
 const app = express();
+// Read the client IP from X-Forwarded-For only when the request comes through a local/private proxy (nginx, Docker)
+app.set('trust proxy', 'loopback, linklocal, uniquelocal');
 
 if (env.corsOrigins.length) app.use(cors({ origin: env.corsOrigins }));
 // Before express.json: the webhook signature is checked against the raw body
@@ -20,6 +23,7 @@ app.use(express.json({ limit: '1mb' }));
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 app.use('/api/pages', pageRoutes);
 app.use('/api/checkout', checkoutRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api', (req, res) => res.status(404).json({ message: 'Not found' }));
 
 // In production the server also hosts the built React app
