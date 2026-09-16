@@ -29,25 +29,25 @@ export const videoInsightsPage = {
       subheading: 'You Failed. But do you know why?',
       videos: [
         {
-          video_url: 'https://vz-1b4abbd6-5f1.b-cdn.net/9655134d-4c88-4ab7-b362-fb9ac96b662b/playlist.m3u8',
+          video_url: 'https://vz-1b4abbd6-5f1.b-cdn.net/b977bb85-c925-4029-91be-c56f67b1f790/playlist.m3u8',
           video_id: '',
           thumbnail: '',
           caption: 'Find out how Leverages can be practiced to a level of perfection to get a perfect score',
         },
         {
-          video_url: 'https://vz-1b4abbd6-5f1.b-cdn.net/07546cdb-ada0-4ec1-8c6f-01e7991fda19/playlist.m3u8',
+          video_url: 'https://vz-1b4abbd6-5f1.b-cdn.net/0f49ae1b-d549-4c11-ad6b-9958de9a3a9b/playlist.m3u8',
           video_id: '',
           thumbnail: '',
           caption: 'Look out for small errors in SM',
         },
         {
-          video_url: 'https://vz-1b4abbd6-5f1.b-cdn.net/0f49ae1b-d549-4c11-ad6b-9958de9a3a9b/playlist.m3u8',
+          video_url: 'https://vz-1b4abbd6-5f1.b-cdn.net/07546cdb-ada0-4ec1-8c6f-01e7991fda19/playlist.m3u8',
           video_id: '',
           thumbnail: '',
           caption: 'Find out where the student missed out in Time of Supply',
         },
         {
-          video_url: 'https://vz-1b4abbd6-5f1.b-cdn.net/b977bb85-c925-4029-91be-c56f67b1f790/playlist.m3u8',
+          video_url: 'https://vz-1b4abbd6-5f1.b-cdn.net/9655134d-4c88-4ab7-b362-fb9ac96b662b/playlist.m3u8',
           video_id: '',
           thumbnail: '',
           caption: 'Watch how mentors analyze and correct answer sheets',
@@ -59,7 +59,7 @@ export const videoInsightsPage = {
       heading: 'How This Works',
       subheading: 'Four simple steps to understand your mistakes',
       steps: [
-        { title: 'Write the test', description: 'Take a full-length mock test under exam conditions' },
+        { title: 'Write The Test', description: 'Take a mock test under exam conditions' },
         { title: 'Upload your Answer Sheet', description: 'Submit your handwritten answer sheets for review' },
         {
           title: 'Mentor Reviews with Video',
